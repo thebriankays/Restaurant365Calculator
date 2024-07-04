@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Restaurant365Calculator.Exceptions;
+using Xunit;
 
 namespace Restaurant365Calculator.Tests
 {
@@ -30,7 +31,7 @@ namespace Restaurant365Calculator.Tests
         [Fact]
         public void Add_TwoNumbers_ReturnsTheirSum()
         {
-            Assert.Equal(5001, _calculator.Add("1,5000"));
+            Assert.Equal(100, _calculator.Add("1,99"));
         }
 
         [Fact]
@@ -52,6 +53,12 @@ namespace Restaurant365Calculator.Tests
             Assert.Equal("Negative numbers are not allowed: -2, -4", exception.Message);
             Assert.Contains(-2, exception.NegativeNumbers);
             Assert.Contains(-4, exception.NegativeNumbers);
+        }
+
+        [Fact]
+        public void Add_NumbersGreaterThan1000_AreIgnored()
+        {
+            Assert.Equal(8, _calculator.Add("2,1001,6"));
         }
 
         [Fact]
@@ -88,12 +95,6 @@ namespace Restaurant365Calculator.Tests
         public void Add_NullInput_ReturnsZero()
         {
             Assert.Equal(0, _calculator.Add((string)null!));
-        }
-
-        [Fact]
-        public void Add_LargeNumbers_HandlesCorrectly()
-        {
-            Assert.Equal(1000000, _calculator.Add("500000,500000"));
         }
 
         [Fact]

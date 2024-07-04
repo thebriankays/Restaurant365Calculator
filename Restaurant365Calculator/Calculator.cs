@@ -42,7 +42,13 @@ namespace Restaurant365Calculator
                     throw new NegativeNumberException(negativeNumbers.Select(n => n.ToInt()));
                 }
 
-                return numberArray.Sum(n => n.ToInt());
+                var ignoredNumbers = numberArray.Where(n => n.ToInt() > 1000).ToList();
+                if (ignoredNumbers.Count > 0)
+                {
+                    _logger.LogInformation("Info: Ignoring numbers greater than 1000: {IgnoredNumbers}", string.Join(", ", ignoredNumbers));
+                }
+
+                return numberArray.Where(n => n.ToInt() <= 1000).Sum(n => n.ToInt());
             }
             catch (Exception ex)
             {

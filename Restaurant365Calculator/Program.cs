@@ -87,6 +87,9 @@ namespace Restaurant365Calculator
                 logger.LogError(ex, "Exception caught: {Message}", ex.Message);
                 Console.WriteLine(ex.Message);
             }
+
+            // Test case for ignoring numbers greater than 1000
+            logger.LogInformation("Result of Add(\"2,1001,6\"): {Result}", calculator.Add("2,1001,6"));   // Output: 8
         }
     }
 }
