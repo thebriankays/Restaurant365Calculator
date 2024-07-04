@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Restaurant365Calculator.Exceptions;
 
 namespace Restaurant365Calculator.Tests
 {
@@ -34,6 +33,12 @@ namespace Restaurant365Calculator.Tests
         }
 
         [Fact]
+        public void Add_MultipleNumbers_ReturnsTheirSum()
+        {
+            Assert.Equal(78, _calculator.Add("1,2,3,4,5,6,7,8,9,10,11,12"));
+        }
+
+        [Fact]
         public void Add_NegativeNumber_ReturnsSum()
         {
             Assert.Equal(1, _calculator.Add("4,-3"));
@@ -49,12 +54,6 @@ namespace Restaurant365Calculator.Tests
         public void Add_InvalidNumber_ReturnsSumWithZero()
         {
             Assert.Equal(5, _calculator.Add("5,tytyt"));
-        }
-
-        [Fact]
-        public void Add_MoreThanTwoNumbers_ThrowsMaximumNumberException()
-        {
-            Assert.Throws<MaximumNumberException>(() => _calculator.Add("1,2,3"));
         }
 
         [Fact]

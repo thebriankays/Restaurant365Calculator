@@ -35,12 +35,6 @@ namespace Restaurant365Calculator
 
                 var numberArray = ParseNumbers(numbers);
 
-                if (numberArray.Length > 2)
-                {
-                    _logger.LogError("Error: A maximum of 2 numbers allowed. Provided input: {Numbers}", numbers);
-                    throw new MaximumNumberException($"A maximum of 2 numbers allowed. Provided input: {numbers}");
-                }
-
                 return numberArray.Sum(n => n.ToInt());
             }
             catch (Exception ex)
