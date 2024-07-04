@@ -53,9 +53,18 @@ namespace Restaurant365Calculator.Tests
         }
 
         [Fact]
+        public void Add_CustomDelimiterAnyLength_ReturnsSum()
+        {
+            Assert.Equal(66, _calculator.Add("//[***]\n11***22***33"));
+        }
+
+        [Fact]
         public void Add_NegativeNumbers_ThrowsNegativeNumberException()
         {
-            Assert.Throws<NegativeNumberException>(() => _calculator.Add("1,-2,3,-4"));
+            var exception = Assert.Throws<NegativeNumberException>(() => _calculator.Add("1,-2,3,-4"));
+            Assert.Equal("Negative numbers are not allowed: -2, -4", exception.Message);
+            Assert.Contains(-2, exception.NegativeNumbers);
+            Assert.Contains(-4, exception.NegativeNumbers);
         }
 
         [Fact]

@@ -71,12 +71,25 @@ namespace Restaurant365Calculator
             if (sanitizedInput.StartsWith("//"))
             {
                 var delimiterEndIndex = sanitizedInput.IndexOf('\n');
-                var customDelimiter = sanitizedInput[2];
-                delimiters.Add(customDelimiter);
+                var delimiterSection = sanitizedInput[2..delimiterEndIndex];
+
+                if (delimiterSection.StartsWith('[') && delimiterSection.EndsWith(']'))
+                {
+                    // Handle custom delimiter of any length
+                    delimiters.AddRange(delimiterSection[1..^1].ToCharArray());
+                }
+                else
+                {
+                    // Handle single character custom delimiter
+                    delimiters.Add(delimiterSection[0]);
+                }
+
                 sanitizedInput = sanitizedInput[(delimiterEndIndex + 1)..];
             }
 
-            var splitNumbers = sanitizedInput.Split(delimiters.ToArray(), StringSplitOptions.None).Select(n => n.Trim()).ToArray();
+            var splitNumbers = sanitizedInput.Split(delimiters.ToArray(), StringSplitOptions.None)
+                                              .Select(n => n.Trim())
+                                              .ToArray();
 
             if (!IsValidInput(splitNumbers))
             {
