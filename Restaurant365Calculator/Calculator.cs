@@ -9,7 +9,6 @@ namespace Restaurant365Calculator
     /// </summary>
     public class Calculator(ILogger<Calculator> logger)
     {
-        private readonly char[] _delimiters = [',', '\n'];
         private readonly ILogger<Calculator> _logger = logger ?? throw new NullLoggerException(nameof(logger));
 
         /// <summary>
@@ -33,7 +32,8 @@ namespace Restaurant365Calculator
                     return 0;
                 }
 
-                var numberArray = ParseNumbers(numbers);
+                var delimiters = new List<char> { ',', '\n' };
+                var numberArray = ParseNumbers(numbers, delimiters);
                 var negativeNumbers = numberArray.Where(n => n.ToInt() < 0).ToList();
 
                 if (negativeNumbers.Count != 0)
@@ -61,13 +61,22 @@ namespace Restaurant365Calculator
         /// Parses numbers from a string.
         /// </summary>
         /// <param name="numbers">A string containing numbers to parse.</param>
+        /// <param name="delimiters">A list of delimiters to use for splitting the string.</param>
         /// <returns>An array of parsed numbers as strings.</returns>
-        private string[] ParseNumbers(string numbers)
+        private string[] ParseNumbers(string numbers, List<char> delimiters)
         {
             var sanitizedInput = numbers.Trim();
             _logger.LogDebug("Parsing numbers from input: {Input}", sanitizedInput);
 
-            var splitNumbers = sanitizedInput.Split(_delimiters, StringSplitOptions.None).Select(n => n.Trim()).ToArray();
+            if (sanitizedInput.StartsWith("//"))
+            {
+                var delimiterEndIndex = sanitizedInput.IndexOf('\n');
+                var customDelimiter = sanitizedInput[2];
+                delimiters.Add(customDelimiter);
+                sanitizedInput = sanitizedInput[(delimiterEndIndex + 1)..];
+            }
+
+            var splitNumbers = sanitizedInput.Split(delimiters.ToArray(), StringSplitOptions.None).Select(n => n.Trim()).ToArray();
 
             if (!IsValidInput(splitNumbers))
             {
