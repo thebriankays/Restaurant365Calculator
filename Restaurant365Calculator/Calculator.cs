@@ -9,7 +9,7 @@ namespace Restaurant365Calculator
     /// </summary>
     public class Calculator(ILogger<Calculator> logger)
     {
-        private const char Delimiter = ',';
+        private readonly char[] _delimiters = [',', '\n'];
         private readonly ILogger<Calculator> _logger = logger ?? throw new NullLoggerException(nameof(logger));
 
         /// <summary>
@@ -17,11 +17,11 @@ namespace Restaurant365Calculator
         /// </summary>
         /// <param name="numbers">A string containing numbers to add.</param>
         /// <returns>The sum of the numbers.</returns>
-        public int Add(string? numbers)  
+        public int Add(string? numbers)
         {
             if (numbers == null)
             {
-                _logger.LogWarning("Input is null.");
+                _logger.LogWarning("Warning: Input is null.");
                 return 0;
             }
 
@@ -54,7 +54,7 @@ namespace Restaurant365Calculator
             var sanitizedInput = numbers.Trim();
             _logger.LogDebug("Parsing numbers from input: {Input}", sanitizedInput);
 
-            var splitNumbers = sanitizedInput.Split(Delimiter).Select(n => n.Trim()).ToArray();
+            var splitNumbers = sanitizedInput.Split(_delimiters, StringSplitOptions.None).Select(n => n.Trim()).ToArray();
 
             if (!IsValidInput(splitNumbers))
             {

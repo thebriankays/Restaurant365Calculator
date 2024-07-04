@@ -39,6 +39,12 @@ namespace Restaurant365Calculator.Tests
         }
 
         [Fact]
+        public void Add_NumbersWithNewlineDelimiter_ReturnsSum()
+        {
+            Assert.Equal(6, _calculator.Add("1\n2,3"));
+        }
+
+        [Fact]
         public void Add_NegativeNumber_ReturnsSum()
         {
             Assert.Equal(1, _calculator.Add("4,-3"));
