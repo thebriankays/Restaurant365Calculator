@@ -57,20 +57,32 @@ namespace Restaurant365Calculator
         /// <param name="logger">The logger instance for logging results.</param>
         private static void RunCalculatorTests(Calculator calculator, ILogger logger)
         {
-            Console.WriteLine(calculator.Add("20"));      // Output: 20
-            Console.WriteLine(calculator.Add("1,5000"));  // Output: 5001
-            Console.WriteLine(calculator.Add("4,-3"));    // Output: 1
-            Console.WriteLine(calculator.Add(""));        // Output: 0
-            Console.WriteLine(calculator.Add("5,tytyt")); // Output: 5
-            Console.WriteLine(calculator.Add(","));       // Output: 0
-            Console.WriteLine(calculator.Add(" 2 , 3 ")); // Output: 5
-            Console.WriteLine(calculator.Add(" 1,2 "));   // Output: 3
+            logger.LogInformation("Result of Add(\"20\"): {Result}", calculator.Add("20"));                                                     // Output: 20
+            logger.LogInformation("Result of Add(\"1,5000\"): {Result}", calculator.Add("1,5000"));                                             // Output: 5001
+            logger.LogInformation("Result of Add(\"\"): {Result}", calculator.Add(""));                                                         // Output: 0
+            logger.LogInformation("Result of Add(\"5,tytyt\"): {Result}", calculator.Add("5,tytyt"));                                           // Output: 5
+            logger.LogInformation("Result of Add(\",\"): {Result}", calculator.Add(","));                                                       // Output: 0
+            logger.LogInformation("Result of Add(\" 2 , 3 \"): {Result}", calculator.Add(" 2 , 3 "));                                           // Output: 5
+            logger.LogInformation("Result of Add(\" 1,2 \"): {Result}", calculator.Add(" 1,2 "));                                               // Output: 3
+            logger.LogInformation("Result of Add(\"1,2,3,4,5,6,7,8,9,10,11,12\"): {Result}", calculator.Add("1,2,3,4,5,6,7,8,9,10,11,12"));     // Output: 78
+            logger.LogInformation("Result of Add(\"1\n2,3\"): {Result}", calculator.Add("1\n2,3"));                                             // Output: 6
+
+            // Should throw NegativeNumberException
+            try
+            {
+                logger.LogInformation("Result of Add(\"4,-3\"): {Result}", calculator.Add("4,-3"));
+            }
+            catch (NegativeNumberException ex)
+            {
+                logger.LogError(ex, "Exception caught: {Message}", ex.Message);
+                Console.WriteLine(ex.Message);
+            }
 
             try
             {
-                Console.WriteLine(calculator.Add("1,2,3")); // Should throw MaximumNumberException
+                calculator.Add("1,-2,3,-4"); 
             }
-            catch (MaximumNumberException ex)
+            catch (NegativeNumberException ex)
             {
                 logger.LogError(ex, "Exception caught: {Message}", ex.Message);
                 Console.WriteLine(ex.Message);

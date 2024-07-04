@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Restaurant365Calculator.Exceptions;
 
 namespace Restaurant365Calculator.Tests
 {
@@ -45,9 +46,12 @@ namespace Restaurant365Calculator.Tests
         }
 
         [Fact]
-        public void Add_NegativeNumber_ReturnsSum()
+        public void Add_NegativeNumbers_ThrowsNegativeNumberException()
         {
-            Assert.Equal(1, _calculator.Add("4,-3"));
+            var exception = Assert.Throws<NegativeNumberException>(() => _calculator.Add("1,-2,3,-4"));
+            Assert.Equal("Negative numbers are not allowed: -2, -4", exception.Message);
+            Assert.Contains(-2, exception.NegativeNumbers);
+            Assert.Contains(-4, exception.NegativeNumbers);
         }
 
         [Fact]

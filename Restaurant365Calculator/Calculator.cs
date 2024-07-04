@@ -34,6 +34,13 @@ namespace Restaurant365Calculator
                 }
 
                 var numberArray = ParseNumbers(numbers);
+                var negativeNumbers = numberArray.Where(n => n.ToInt() < 0).ToList();
+
+                if (negativeNumbers.Count != 0)
+                {
+                    _logger.LogError("Error: Negative numbers found: {NegativeNumbers}", string.Join(", ", negativeNumbers));
+                    throw new NegativeNumberException(negativeNumbers.Select(n => n.ToInt()));
+                }
 
                 return numberArray.Sum(n => n.ToInt());
             }
