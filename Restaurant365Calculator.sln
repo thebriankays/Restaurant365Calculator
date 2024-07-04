@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant365Calculator", "Restaurant365Calculator\Restaurant365Calculator.csproj", "{6A7DE746-FC7C-4E23-B07B-C9424E126328}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant365Calculator.Tests", "Restaurant365Calculator.Tests\Restaurant365Calculator.Tests.csproj", "{7BBC4F35-E3C5-4D92-A93A-5931046BD12D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A7DE746-FC7C-4E23-B07B-C9424E126328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A7DE746-FC7C-4E23-B07B-C9424E126328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A7DE746-FC7C-4E23-B07B-C9424E126328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A7DE746-FC7C-4E23-B07B-C9424E126328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BBC4F35-E3C5-4D92-A93A-5931046BD12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BBC4F35-E3C5-4D92-A93A-5931046BD12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BBC4F35-E3C5-4D92-A93A-5931046BD12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BBC4F35-E3C5-4D92-A93A-5931046BD12D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B7A9E69-2A0C-4006-8DBF-D6EF898C52E7}
+	EndGlobalSection
+EndGlobal
