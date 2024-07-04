@@ -89,14 +89,17 @@ namespace Restaurant365Calculator
             }
 
             // Test case for ignoring numbers greater than 1000
-            logger.LogInformation("Result of Add(\"2,1001,6\"): {Result}", calculator.Add("2,1001,6"));                             // Output: 8
+            logger.LogInformation("Result of Add(\"2,1001,6\"): {Result}", calculator.Add("2,1001,6"));                                                   // Output: 8
 
             // Test case for custom delimiter
-            logger.LogInformation("Result of Add(\"//#\n2#5\"): {Result}", calculator.Add("//#\n2#5"));                             // Output: 7
-            logger.LogInformation("Result of Add(\"//,\n2,ff,100\"): {Result}", calculator.Add("//,\n2,ff,100"));                   // Output: 102
+            logger.LogInformation("Result of Add(\"//#\n2#5\"): {Result}", calculator.Add("//#\n2#5"));                                                   // Output: 7
+            logger.LogInformation("Result of Add(\"//,\n2,ff,100\"): {Result}", calculator.Add("//,\n2,ff,100"));                                         // Output: 102
 
             // Test case for custom delimiter of any length
-            logger.LogInformation("Result of Add(\"//[***]\n11***22***33\"): {Result}", calculator.Add("//[***]\n11***22***33"));   // Output: 66
+            logger.LogInformation("Result of Add(\"//[***]\n11***22***33\"): {Result}", calculator.Add("//[***]\n11***22***33"));                         // Output: 66
+
+            // Test case for multiple custom delimiters of any length
+            logger.LogInformation("Result of Add(\"//[*][!!][r9r]\n11r9r22*hh*33!!44\"): {Result}", calculator.Add("//[*][!!][r9r]\n11r9r22*hh*33!!44")); // Output: 110
         }
     }
 }

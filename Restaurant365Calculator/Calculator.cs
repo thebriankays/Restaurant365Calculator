@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Restaurant365Calculator.Exceptions;
 using Restaurant365Calculator.Extensions;
+using System.Text.RegularExpressions;
 
 namespace Restaurant365Calculator
 {
     /// <summary>
     /// Calculator class for performing arithmetic operations.
     /// </summary>
-    public class Calculator(ILogger<Calculator> logger)
+    public partial class Calculator(ILogger<Calculator> logger)
     {
         private readonly ILogger<Calculator> _logger = logger ?? throw new NullLoggerException(nameof(logger));
 
@@ -32,7 +33,7 @@ namespace Restaurant365Calculator
                     return 0;
                 }
 
-                var delimiters = new List<char> { ',', '\n' };
+                var delimiters = new List<string> { ",", "\n" };
                 var numberArray = ParseNumbers(numbers, delimiters);
                 var negativeNumbers = numberArray.Where(n => n.ToInt() < 0).ToList();
 
@@ -63,7 +64,7 @@ namespace Restaurant365Calculator
         /// <param name="numbers">A string containing numbers to parse.</param>
         /// <param name="delimiters">A list of delimiters to use for splitting the string.</param>
         /// <returns>An array of parsed numbers as strings.</returns>
-        private string[] ParseNumbers(string numbers, List<char> delimiters)
+        private string[] ParseNumbers(string numbers, List<string> delimiters)
         {
             var sanitizedInput = numbers.Trim();
             _logger.LogDebug("Parsing numbers from input: {Input}", sanitizedInput);
@@ -73,15 +74,17 @@ namespace Restaurant365Calculator
                 var delimiterEndIndex = sanitizedInput.IndexOf('\n');
                 var delimiterSection = sanitizedInput[2..delimiterEndIndex];
 
-                if (delimiterSection.StartsWith('[') && delimiterSection.EndsWith(']'))
+                var matches = MultipleDelimiterRegex().Matches(delimiterSection);
+                if (matches.Count > 0)
                 {
-                    // Handle custom delimiter of any length
-                    delimiters.AddRange(delimiterSection[1..^1].ToCharArray());
+                    foreach (Match match in matches)
+                    {
+                        delimiters.Add(match.Groups[1].Value);
+                    }
                 }
                 else
                 {
-                    // Handle single character custom delimiter
-                    delimiters.Add(delimiterSection[0]);
+                    delimiters.Add(delimiterSection);
                 }
 
                 sanitizedInput = sanitizedInput[(delimiterEndIndex + 1)..];
@@ -98,6 +101,9 @@ namespace Restaurant365Calculator
 
             return splitNumbers;
         }
+
+        [GeneratedRegex(@"\[(.*?)\]")]
+        private static partial Regex MultipleDelimiterRegex();
 
         /// <summary>
         /// Validates the input strings to check if they can be parsed as integers.
