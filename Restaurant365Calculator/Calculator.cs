@@ -9,7 +9,7 @@ namespace Restaurant365Calculator
     /// </summary>
     public class Calculator(ILogger<Calculator> logger)
     {
-        private const char DefaultDelimiter = ',';
+        private const char Delimiter = ',';
         private readonly ILogger<Calculator> _logger = logger ?? throw new NullLoggerException(nameof(logger));
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Restaurant365Calculator
             {
                 if (string.IsNullOrWhiteSpace(numbers))
                 {
-                    _logger.LogWarning("Input is empty or whitespace.");
+                    _logger.LogWarning("Warning: Input is empty.");
                     return 0;
                 }
 
@@ -37,15 +37,15 @@ namespace Restaurant365Calculator
 
                 if (numberArray.Length > 2)
                 {
-                    _logger.LogError("A maximum of 2 numbers is allowed. Provided input: {Numbers}", numbers);
-                    throw new MaximumNumberException($"A maximum of 2 numbers is allowed. Provided input: {numbers}");
+                    _logger.LogError("Error: A maximum of 2 numbers allowed. Provided input: {Numbers}", numbers);
+                    throw new MaximumNumberException($"A maximum of 2 numbers allowed. Provided input: {numbers}");
                 }
 
                 return numberArray.Sum(n => n.ToInt());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while adding numbers.");
+                _logger.LogError(ex, "Error: An error occurred while adding numbers.");
                 throw;
             }
         }
@@ -60,11 +60,11 @@ namespace Restaurant365Calculator
             var sanitizedInput = numbers.Trim();
             _logger.LogDebug("Parsing numbers from input: {Input}", sanitizedInput);
 
-            var splitNumbers = sanitizedInput.Split(DefaultDelimiter).Select(n => n.Trim()).ToArray();
+            var splitNumbers = sanitizedInput.Split(Delimiter).Select(n => n.Trim()).ToArray();
 
             if (!IsValidInput(splitNumbers))
             {
-                _logger.LogWarning("Invalid input format: {Input}", sanitizedInput);
+                _logger.LogDebug("Warning: Invalid input format: {Input}. Invalid numbers will be converted to 0.", sanitizedInput);
             }
 
             return splitNumbers;

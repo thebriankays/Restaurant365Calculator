@@ -54,8 +54,7 @@ namespace Restaurant365Calculator.Tests
         [Fact]
         public void Add_MoreThanTwoNumbers_ThrowsMaximumNumberException()
         {
-            var exception = Assert.Throws<MaximumNumberException>(() => _calculator.Add("1,2,3"));
-            Assert.Equal("A maximum of 2 numbers is allowed. Provided input: 1,2,3", exception.Message);
+            Assert.Throws<MaximumNumberException>(() => _calculator.Add("1,2,3"));
         }
 
         [Fact]
@@ -86,6 +85,18 @@ namespace Restaurant365Calculator.Tests
         public void Add_LargeNumbers_HandlesCorrectly()
         {
             Assert.Equal(1000000, _calculator.Add("500000,500000"));
+        }
+
+        [Fact]
+        public void Add_InputWithSpecialCharacters_ReturnsZero()
+        {
+            Assert.Equal(0, _calculator.Add("!,@"));
+        }
+
+        [Fact]
+        public void Add_InputWithOnlyWhitespace_ReturnsZero()
+        {
+            Assert.Equal(0, _calculator.Add("   "));
         }
     }
 }

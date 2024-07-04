@@ -27,6 +27,7 @@ namespace Restaurant365Calculator
                 logger.LogInformation("Starting application");
 
                 var calculator = serviceProvider.GetRequiredService<Calculator>();
+
                 RunCalculatorTests(calculator, logger);
 
                 logger.LogInformation("Ending application");
